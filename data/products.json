@@ -1,0 +1,12 @@
+{
+    "veg": {
+        "carrots": 10,
+        "peas": 5,
+        "broccoli": 8
+    },
+    "nonveg": {
+        "chicken": 20,
+        "beef": 25,
+        "fish": 18
+    }
+}

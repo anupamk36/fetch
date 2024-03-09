@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Food Type</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .food-type-options {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-top: 50px;
+        }
+
+        .food-type-card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            text-decoration: none;
+            color: #333;
+            width: 300px;
+            text-align: center;
+        }
+
+        .food-type-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .food-type-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .food-type-title {
+            font-size: 24px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Select Food Type</h1>
+        <div class="food-type-options">
+            <a href="/customize-order?type=veg" class="food-type-card">
+                <img src="veg_food_image.jpg" alt="Vegetarian Dog Food" class="food-type-image">
+                <h3 class="food-type-title">Vegetarian</h3>
+            </a>
+            <a href="/customize-order?type=nonveg" class="food-type-card">
+                <img src="nonveg_food_image.jpg" alt="Non-Vegetarian Dog Food" class="food-type-image">
+                <h3 class="food-type-title">Non-Vegetarian</h3>
+            </a>
+        </div>
+    </div>
+</body>
+
+</html>

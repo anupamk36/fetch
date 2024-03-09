@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customize Your Dog Food Order</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            max-width: 400px;
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #007bff;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+
+        button[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .ingredient-checkbox {
+            margin-bottom: 10px;
+        }
+
+        #totalPrice {
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Customize Your Dog Food Order</h1>
+        <form id="orderForm" action="/customize-order" method="POST">
+            <div>
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div>
+                <label for="address">Address:</label>
+                <textarea id="address" name="address" rows="4" required></textarea>
+            </div>
+            <div>
+                <label for="payment">Payment:</label>
+                <input type="text" id="payment" name="payment" required>
+            </div>
+            <div id="ingredientOptions">
+                <!-- Ingredients will be dynamically added here -->
+            </div>
+            <div>
+                <label>Total Price:</label>
+                <span id="totalPrice">0</span> rupees
+            </div>
+                <button type="submit" id="placeOrderBtn">Place Order</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const foodType = new URLSearchParams(window.location.search).get('type');
+            fetch(`/get-ingredients/${foodType}`)
+                .then(response => response.json())
+                .then(data => {
+                    const ingredientOptions = document.getElementById('ingredientOptions');
+                    const totalPriceSpan = document.getElementById('totalPrice');
+                    let totalPrice = 0;
+
+                    for (const ingredient in data) {
+                        const price = data[ingredient];
+                        const checkbox = document.createElement('input');
+                        checkbox.type = 'checkbox';
+                        checkbox.classList.add('ingredient-checkbox');
+                        checkbox.name = 'ingredients';
+                        checkbox.value = ingredient;
+                        checkbox.dataset.price = price;
+                        checkbox.addEventListener('change', function () {
+                            if (this.checked) {
+                                totalPrice += parseInt(this.dataset.price);
+                            } else {
+                                totalPrice -= parseInt(this.dataset.price);
+                            }
+                            totalPriceSpan.textContent = totalPrice;
+                        });
+                        const label = document.createElement('label');
+                        label.textContent = `${ingredient} (+${price} rupees)`;
+                        const lineBreak = document.createElement('br');
+                        ingredientOptions.appendChild(checkbox);
+                        ingredientOptions.appendChild(label);
+                        ingredientOptions.appendChild(lineBreak);
+                    }
+                });
+        });
+    </script>
+</body>
+
+</html>
